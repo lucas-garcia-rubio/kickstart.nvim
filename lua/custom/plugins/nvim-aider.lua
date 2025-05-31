@@ -44,3 +44,7 @@ return {
     end,
   },
 }
+
+-- Pra caso eu queira aumentar a janela de contexto do aider
+-- https://github.com/Aider-AI/aider/issues/2227#issuecomment-2884719517
+-- https://github.com/Aider-AI/aider/issues/2227#issuecomment-2888338214
