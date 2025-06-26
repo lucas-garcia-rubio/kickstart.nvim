@@ -32,7 +32,7 @@ local config = {
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
   cmd = {
-    '/home/lucas/.sdkman/candidates/java/21.0.2-open/bin/java',
+    '/home/lucas/.sdkman/candidates/java/21.0.7-tem/bin/java',
     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
     '-Dosgi.bundles.defaultStartLevel=4',
     '-Declipse.product=org.eclipse.jdt.ls.core.product',
@@ -58,13 +58,13 @@ local config = {
 
   -- This is the default if not provided, you can remove it. Or adjust as needed.
   -- One dedicated LSP server & client will be started per unique root_dir
-  root_dir = vim.fs.root(0, { '.git', 'mvnw', 'gradlew' }),
+  root_dir = vim.fs.root(0, { '.git', 'mvnw', 'gradlew', 'pom.xml' }),
 
   -- Here you can configure eclipse.jdt.ls specific settings
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
   settings = {
     java = {
-      home = '/home/lucas/.sdkman/candidates/java/21.0.2-open',
+      home = '/home/lucas/.sdkman/candidates/java/21.0.7-tem',
       eclipse = {
         downloadSources = true,
       },
@@ -75,11 +75,11 @@ local config = {
         runtimes = {
           {
             name = 'JavaSE-11',
-            path = '/home/lucas/.sdkman/candidates/java/11.0.22-ms',
+            path = '/home/lucas/.sdkman/candidates/java/11.0.27-tem',
           },
           {
             name = 'JavaSE-21',
-            path = '/home/lucas/.sdkman/candidates/java/21.0.2-open',
+            path = '/home/lucas/.sdkman/candidates/java/21.0.7-tem',
           },
         },
       },
@@ -100,8 +100,11 @@ local config = {
         enabled = true,
         -- Formatting works by default, but you can refer to a specific file/URL if you choose
         settings = {
-          url = '/home/lucas/magna-sistemas-java-code-formatter.xml',
+          url = '/home/lucas/.config/formatters/java/magna-sistemas-java-code-formatter.xml',
         },
+      },
+      saveActions = {
+        organizeImports = true,
       },
       completion = {
         favoriteStaticMembers = {
@@ -156,6 +159,17 @@ config['on_attach'] = function(client, bufnr)
   jdtls.setup_dap { hotcodereplace = 'auto' }
   require('jdtls.dap').setup_dap_main_class_configs()
 end
+
+-- Match magna formatter
+-- Java-specific indentation settings to match Eclipse formatter
+vim.bo.tabstop = 4
+vim.bo.shiftwidth = 4
+vim.bo.expandtab = false
+vim.bo.softtabstop = 4
+vim.opt_local.colorcolumn = '200'
+
+-- Optional: Add continuation indentation for wrapped lines
+vim.bo.cinoptions = '+2s'
 
 -- This starts a new client & server, or attaches to an existing client & server based on the `root_dir`.
 jdtls.start_or_attach(config)

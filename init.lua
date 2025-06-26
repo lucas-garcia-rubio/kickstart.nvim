@@ -161,14 +161,6 @@ vim.o.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 15
 
--- Uncoment if you want a margin in filetypes
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'java',
-  callback = function()
-    vim.opt_local.colorcolumn = '200'
-  end,
-})
-
 -- Set a vertical column marker at column 80
 -- vim.opt.colorcolumn = '120'
 
@@ -264,7 +256,11 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  { 'NMAC427/guess-indent.nvim', opts = {} }, -- Detect tabstop and shiftwidth automatically
+  { 'NMAC427/guess-indent.nvim', opts = {
+    filetype_exclude = {
+      'java',
+    },
+  } }, -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -744,11 +740,11 @@ require('lazy').setup({
           single_file_support = false,
           settings = {},
         },
-        denols = {
-          root_dir = require('lspconfig').util.root_pattern { 'deno.json', 'deno.jsonc' },
-          single_file_support = false,
-          settings = {},
-        },
+        -- denols = { -- Habilitar novamente quando tiver corrigido o attach de LSP
+        --   root_dir = require('lspconfig').util.root_pattern { 'deno.json', 'deno.jsonc' },
+        --   single_file_support = false,
+        --   settings = {},
+        -- },
       }
 
       -- Ensure the servers and tools above are installed
@@ -767,7 +763,9 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'xmlformatter',
         'java-test',
+        'java-debug-adapter',
         'prettier',
         'eslint_d',
       })
@@ -812,6 +810,11 @@ require('lazy').setup({
     opts = {
       formatters = {
         deno_fmt = {},
+        -- xmlformatter = {
+        --   cmd = 'xmlformatter',
+        --   -- args = { '--indent-char', '\t', '--indent', '4' },
+        --   append_args = { '--indent-char', '\t' },
+        -- },
       },
       notify_on_error = false,
       format_on_save = function(bufnr)
@@ -830,6 +833,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        -- xml = { 'xmlformatter' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
