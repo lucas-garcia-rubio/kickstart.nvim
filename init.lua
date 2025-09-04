@@ -712,7 +712,7 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         gopls = {},
-        -- pyright = {},
+        pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -771,6 +771,7 @@ require('lazy').setup({
         'prettier',
         'eslint_d',
         'jdtls',
+        'tailwindcss',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -979,7 +980,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      -- vim.cmd.colorscheme 'tokyonight-night'
     end,
   },
   -- Theme rose-pine
@@ -994,6 +995,19 @@ require('lazy').setup({
         },
       }
       -- vim.cmd 'colorscheme rose-pine'
+    end,
+  },
+  -- Theme catpuccin
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    priority = 1000,
+    config = function()
+      require('catppuccin').setup {
+        flavour = 'mocha',
+        transparent_background = true,
+      }
+      vim.cmd 'colorscheme catppuccin'
     end,
   },
   -- Highlight todo, notes, etc in comments

@@ -1,5 +1,5 @@
 return {
-  'dsych/blanket.nvim',
+  'dsych/blanket.nvim', -- TODO: utilizar algum renderizador de html pra mostrar o report_index_html
   opts = {
     report_path = vim.fn.getcwd() .. '/target/site/jacoco/jacoco.xml',
     filetypes = 'java',
