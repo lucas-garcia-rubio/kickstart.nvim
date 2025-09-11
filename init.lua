@@ -454,6 +454,10 @@ require('lazy').setup({
       pcall(require('telescope').load_extension, 'ui-select')
       pcall(require('telescope').load_extension, 'git_branch')
 
+      vim.keymap.set('n', '<leader>gf', function()
+        require('git_branch').files()
+      end, { desc = '[G]it [F]iles' })
+
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
